@@ -20,6 +20,37 @@ namespace powerGrind.Modules.Users.Services
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _userRepository.GetUserByEmailAsync(email);
-        }githu
+        }
+
+        public async Task<User?> GetUserByIdAsync(Guid id)
+        {
+            return await _userRepository.GetUserByIdAsync(id);
+        }
+
+        public async Task<bool> CreateUserAsync(User user)
+        {
+            if (user.PasswordHash != null)
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+            }
+
+            return await _userRepository.CreateUserAsync(user);
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            if(user.PasswordHash != null)
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+            }
+
+            return await _userRepository.UpdateUserAsync(user);
+        }
+
+        public async Task<bool> DeleteUserAsync(Guid id)
+        {
+            return await _userRepository.DeleteUserAsync(id);
+        }
+
     }
 }

@@ -29,6 +29,7 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAuthServices();
+builder.Services.AddUserServices();
 
 var app = builder.Build();
 

@@ -27,7 +27,6 @@
     <Folder Include="Modules\Authentication\Controllers\" />
     <Folder Include="Modules\Authentication\DTOs\" />
     <Folder Include="Modules\Users\Controllers\" />
-    <Folder Include="Modules\Users\DTOs\" />
     <Folder Include="Shared\Exceptions\" />
   </ItemGroup>
 

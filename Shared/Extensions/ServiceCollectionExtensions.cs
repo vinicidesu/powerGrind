@@ -8,14 +8,21 @@ namespace powerGrind.Shared.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAuthServices(this IServiceCollection services) 
+        public static IServiceCollection AddAuthServices(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddUserServices(this IServiceCollection services)
+        {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
             return services;
         }
     }
+
 }
