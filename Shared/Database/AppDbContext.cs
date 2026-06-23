@@ -12,5 +12,6 @@ namespace powerGrind.Shared.Database
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Invite> Invites { get; set; }
     }
 }
