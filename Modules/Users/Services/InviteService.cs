@@ -12,13 +12,17 @@ namespace powerGrind.Modules.Users.Services
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILogger _logger;
+        private readonly IResend _resend;
 
-        public InviteService(AppDbContext appDbContext, IConfiguration configuration, IUserRepository userRepository, IHttpClientFactory httpClientFactory)
+        public InviteService(AppDbContext appDbContext, IConfiguration configuration, IUserRepository userRepository, IHttpClientFactory httpClientFactory, ILogger logger, IResend resend)
         {
             _appDbContext = appDbContext;
             _configuration = configuration;
             _userRepository = userRepository;
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
+            _resend = resend;
         }
 
         public async Task<bool> SendInviteAsync(string? email, string? phoneNumber, string role)
@@ -37,24 +41,15 @@ namespace powerGrind.Modules.Users.Services
 
             if (email != null)
             {
-                //var options = new ResendClientOptions 
-                //{ 
-                //    ApiToken = _configuration["Resend:ApiKey"]!
-                //};
+                var message = new EmailMessage
+                {
+                    From = "onboarding@resend.dev",
+                    To = [email],
+                    Subject = "Você foi convidado para o powerGrind",
+                    HtmlBody = $"<p>Clique no link para completar seu cadastro: <a href='https://app.powergrind.com/complete?token={invite.Token}'>Aceitar convite</a></p>"
+                };
 
-                //var httpClient = _httpClientFactory.CreateClient();
-
-                //var resend = new ResendClient(Options.Create(options), httpClient);
-
-                //var message = new EmailMessage
-                //{
-                //    From = "invite@seudominio.com",
-                //    To = [email],
-                //    Subject = "Você foi convidado para o powerGrind",
-                //    HtmlBody = $"<p>Clique no link para completar seu cadastro: <a href='https://app.powergrind.com/complete?token={invite.Token}'>Aceitar convite</a></p>"
-                //};
-
-                //await resend.EmailSendAsync(message);
+                await _resend.EmailSendAsync(message);
             }
 
             return true;

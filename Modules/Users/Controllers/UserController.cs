@@ -117,22 +117,5 @@ namespace powerGrind.Modules.Users.Controllers
                 return StatusCode(500);
             }
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
-        {
-            try
-            {
-                var response = await _userService.DeleteUserAsync(id);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error during delete user.");
-                return StatusCode(500);
-            }
-        }
     }
 }
